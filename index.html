@@ -158,6 +158,7 @@ main {
   border-bottom: 1px solid var(--line);
 }
 .panel-header h2 { font-size: 15px; color: var(--wine-700); font-weight: 700; }
+.panel-header-actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .panel-body { padding: 14px; }
 
 /* --------------------------- brand identity row ------------------------ */
@@ -202,6 +203,8 @@ main {
 }
 .icon-btn.subtle { border-color: transparent; color: var(--ink-soft); }
 .icon-btn:hover { border-color: var(--gold-600); }
+.icon-btn.success { color: var(--success); border-color: var(--success); }
+.icon-btn.danger { color: var(--danger); border-color: var(--danger); }
 
 /* ------------------------------- forms ---------------------------------- */
 
@@ -331,7 +334,41 @@ table.sizes-table input { width: 52px; padding: 4px 5px; text-align: right; }
 
     <div class="panel-header">
       <h2 id="productCount">0 artículos</h2>
-      <button class="icon-btn" id="toggleNewProduct"><i class="fa-solid fa-plus"></i> nuevo artículo</button>
+      <div class="panel-header-actions">
+        <button class="icon-btn success" id="toggleBuyPanel"><i class="fa-solid fa-arrow-down"></i> compra</button>
+        <button class="icon-btn danger" id="toggleSellPanel"><i class="fa-solid fa-arrow-up"></i> venta</button>
+        <button class="icon-btn" id="toggleNewProduct"><i class="fa-solid fa-plus"></i> nuevo artículo</button>
+      </div>
+    </div>
+
+    <div class="panel-body movement-card in" id="buyPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
+      <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-down"></i> registrar compra (ingreso de stock)</p>
+      <form id="buyForm">
+        <div class="field-row">
+          <div class="field"><label>Artículo</label><select id="buyProduct"><option value="">elegir artículo…</option></select></div>
+          <div class="field"><label>Talla</label><select id="buySize"><option value="">elegir talla…</option></select></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Docenas</label><input id="buyDozens" type="number" placeholder="1"></div>
+          <div class="field"><label>Unidades sueltas</label><input id="buyUnits" type="number" placeholder="0"></div>
+        </div>
+        <button class="btn-primary" type="submit"><i class="fa-solid fa-arrow-down"></i> agregar al stock</button>
+      </form>
+    </div>
+
+    <div class="panel-body movement-card out" id="sellPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
+      <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-up"></i> registrar venta (descontar stock)</p>
+      <form id="sellForm">
+        <div class="field-row">
+          <div class="field"><label>Artículo</label><select id="sellProduct"><option value="">elegir artículo…</option></select></div>
+          <div class="field"><label>Talla</label><select id="sellSize"><option value="">elegir talla…</option></select></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Docenas</label><input id="sellDozens" type="number" placeholder="0"></div>
+          <div class="field"><label>Unidades sueltas</label><input id="sellUnits" type="number" placeholder="1"></div>
+        </div>
+        <button class="btn-primary btn-danger" type="submit"><i class="fa-solid fa-arrow-up"></i> descontar del stock</button>
+      </form>
     </div>
 
     <div class="panel-body" id="newProductPanel" style="display:none;">
@@ -483,7 +520,10 @@ async function loadProducts(brandId) {
     .eq('brand_id', brandId)
     .order('code');
   if (error) return console.error(error);
-  renderProductList(data || []);
+  state.brandProducts = data || [];
+  renderProductList(state.brandProducts);
+  populateMoveProductSelect('#sellProduct', state.brandProducts);
+  populateMoveProductSelect('#buyProduct', state.brandProducts);
 }
 
 function renderProductList(products) {
@@ -581,6 +621,58 @@ async function movementPrompt(productSizeId, type, product) {
   await loadMovements(state.currentBrandId);
   toggleProductDetail(product);
   toggleProductDetail(product);
+}
+
+/* -------------------------- registrar compra/venta ------------------------- */
+
+function populateMoveProductSelect(selectSel, products) {
+  const select = el(selectSel);
+  if (!select) return;
+  const current = select.value;
+  select.innerHTML = '<option value="">elegir artículo…</option>' +
+    products.map((p) => `<option value="${p.product_id}">${p.code} · ${p.name}</option>`).join('');
+  select.value = products.some((p) => p.product_id === current) ? current : '';
+}
+
+async function onMoveProductChange(productSelectSel, sizeSelectSel) {
+  const productId = el(productSelectSel).value;
+  const sizeSelect = el(sizeSelectSel);
+  if (!productId) { sizeSelect.innerHTML = '<option value="">elegir talla…</option>'; return; }
+
+  const { data: sizes, error } = await supa
+    .from('product_sizes')
+    .select('*')
+    .eq('product_id', productId)
+    .order('size');
+  if (error) { sizeSelect.innerHTML = '<option value="">error cargando tallas</option>'; return; }
+
+  sizeSelect.innerHTML = '<option value="">elegir talla…</option>' +
+    sizes.map((s) => `<option value="${s.id}">${s.size} · stock actual ${totalUnits(s.dozens, s.loose_units)}</option>`).join('');
+}
+
+async function submitMovement(ev, type) {
+  ev.preventDefault();
+  const prefix = type === 'ingreso' ? 'buy' : 'sell';
+  const productSizeId = el(`#${prefix}Size`).value;
+  const dozens = parseInt(el(`#${prefix}Dozens`).value, 10) || 0;
+  const loose_units = parseInt(el(`#${prefix}Units`).value, 10) || 0;
+
+  if (!productSizeId) return alert('Elige el artículo y la talla.');
+  if (!dozens && !loose_units) return alert('Ingresa una cantidad en docenas o unidades.');
+
+  const { error } = await supa.from('stock_movements').insert({
+    product_size_id: productSizeId,
+    movement_type: type,
+    dozens,
+    loose_units,
+    reason: type === 'ingreso' ? 'compra' : 'venta',
+  });
+  if (error) return alert('No se pudo registrar el movimiento: ' + error.message);
+
+  el(`#${prefix}Form`).reset();
+  el(`#${prefix}Size`).innerHTML = '<option value="">elegir talla…</option>';
+  await loadProducts(state.currentBrandId);
+  await loadMovements(state.currentBrandId);
 }
 
 /* ---------------------------- nuevo artículo ------------------------------ */
@@ -708,6 +800,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const panel = el('#newProductPanel');
     panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
   });
+
+  el('#toggleBuyPanel').addEventListener('click', () => {
+    const panel = el('#buyPanel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  });
+  el('#toggleSellPanel').addEventListener('click', () => {
+    const panel = el('#sellPanel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+  });
+  el('#buyProduct').addEventListener('change', () => onMoveProductChange('#buyProduct', '#buySize'));
+  el('#sellProduct').addEventListener('change', () => onMoveProductChange('#sellProduct', '#sellSize'));
+  el('#buyForm').addEventListener('submit', (ev) => submitMovement(ev, 'ingreso'));
+  el('#sellForm').addEventListener('submit', (ev) => submitMovement(ev, 'egreso'));
+
   el('#movementFilter').addEventListener('change', () => loadMovements(state.currentBrandId));
   init();
 });
