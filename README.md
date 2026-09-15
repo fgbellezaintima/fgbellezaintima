@@ -1,7 +1,11 @@
 # F&G Belleza Intima — sistema de stock
 
-Sitio estático (HTML/CSS/JS puro) que lee y escribe directamente en Supabase.
-No necesita build ni backend propio: Netlify solo sirve los archivos.
+Sitio estático de un solo archivo (`index.html`, con el CSS y el JS ya
+incluidos adentro) que lee y escribe directamente en Supabase. No necesita
+build ni backend propio: Netlify solo sirve el archivo.
+
+**Lo único que subes a GitHub es `index.html` y este `README.md`.**
+`schema.sql` no va al repo — se pega una sola vez en el SQL Editor de Supabase.
 
 ## 1. Supabase
 
@@ -10,13 +14,13 @@ No necesita build ni backend propio: Netlify solo sirve los archivos.
    Esto crea las tablas (`brands`, `products`, `product_sizes`, `stock_movements`),
    las 6 marcas iniciales, las vistas de totales y el trigger que ajusta el stock
    automáticamente cuando registras un ingreso o egreso.
-3. Ve a **Settings → API** y copia:
-   - `Project URL`
-   - `anon public key`
-4. Pégalos en `js/config.js`:
+3. Ve a **Settings → API** y copia el `Project URL` (algo como
+   `https://xxxxx.supabase.co`).
+4. Ábrelo en `index.html`, busca estas dos líneas cerca del final del
+   archivo y reemplaza el Project URL (el `anon public key` ya está puesto):
    ```js
-   window.SUPABASE_URL = "https://xxxxx.supabase.co";
-   window.SUPABASE_ANON_KEY = "eyJ...";
+   window.SUPABASE_URL = "https://TU-PROYECTO.supabase.co"; // <-- reemplazar
+   window.SUPABASE_ANON_KEY = "sb_publishable_bw3v1omMqTfN74jYvtZliQ_7BJsGrGA";
    ```
 
 Las políticas RLS del script dejan la base abierta al `anon key` (pensado para
@@ -25,29 +29,21 @@ contraseña, se reemplazan esas políticas — avísame cuando llegue ese moment
 
 ## 2. GitHub
 
-```bash
-cd fg-belleza-intima
-git init
-git add .
-git commit -m "sistema de stock F&G Belleza Intima"
-git branch -M main
-git remote add origin https://github.com/TU-USUARIO/fg-belleza-intima.git
-git push -u origin main
-```
+Solo necesitas subir `index.html` y `README.md` — literal, arrastra esos dos
+archivos al repo (por la web de GitHub o con git, como prefieras).
 
-`js/config.js` queda en el repo con tus llaves. Como es solo el `anon key`
-(protegido por las políticas RLS) esto es aceptable para un proyecto interno,
-pero si prefieres no subirlo, agrega `js/config.js` a un `.gitignore` y
-súbelo a mano una vez en Netlify (Site settings → Environment o como archivo
-directo, según prefieras).
+El `anon/publishable key` queda escrito dentro del `index.html`. Es el key
+pensado para estar en el navegador (no es secreto, y las políticas RLS de
+`schema.sql` son las que realmente protegen la base), así que no hay
+problema en que esté a la vista en el repo.
 
 ## 3. Netlify
 
 1. **Add new site → Import an existing project → GitHub** → elige el repo.
-2. Build command: (vacío) — Publish directory: `.`
-   (ya viene definido en `netlify.toml`, no debería pedir nada más).
-3. Deploy. Cada `git push` a `main` vuelve a publicar solo.
-4. No hace falta dominio propio: usa el subdominio `algo.netlify.app` que te da Netlify.
+2. Build command: (vacío) — Publish directory: `.` (la raíz del repo, donde está `index.html`).
+3. Deploy. Cada vez que actualices `index.html` en GitHub, Netlify vuelve a publicar solo.
+4. No hace falta dominio propio: usa el subdominio tipo `fgbellezaintima.netlify.app`
+   que puedes elegir en Site settings → Change site name.
 
 ## 4. Lector de código de barras
 
