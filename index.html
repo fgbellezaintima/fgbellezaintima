@@ -157,7 +157,7 @@ main {
   padding: 12px 14px;
   border-bottom: 1px solid var(--line);
 }
-.panel-header h2 { font-size: 15px; }
+.panel-header h2 { font-size: 15px; color: var(--wine-700); font-weight: 700; }
 .panel-body { padding: 14px; }
 
 /* --------------------------- brand identity row ------------------------ */
@@ -380,7 +380,7 @@ table.sizes-table input { width: 52px; padding: 4px 5px; text-align: right; }
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-window.SUPABASE_URL = "https://TU-PROYECTO.supabase.co"; // <-- pega aquí tu Project URL
+window.SUPABASE_URL = "https://kityyayzszhyvnargfwc.supabase.co";
 window.SUPABASE_ANON_KEY = "sb_publishable_bw3v1omMqTfN74jYvtZliQ_7BJsGrGA";
 
 /* F&G Belleza Intima — stock app (vanilla JS + Supabase) */
@@ -453,15 +453,15 @@ function renderBrandIdentity() {
   const box = el('#brandIdentity');
   if (!brand) { box.innerHTML = ''; return; }
   box.innerHTML = `
-    ${brand.logo_url
-      ? `<img class="brand-logo" src="${brand.logo_url}" alt="logo ${brand.name}">`
-      : `<div class="brand-logo-placeholder"><i class="fa-solid fa-tag"></i></div>`}
     <div style="flex:1;">
       <div class="brand-name">${brand.name}</div>
     </div>
-    <button class="icon-btn subtle" id="setLogoBtn"><i class="fa-solid fa-plus"></i> imagen</button>
+    ${brand.logo_url
+      ? `<img class="brand-logo" id="brandLogoImg" src="${brand.logo_url}" alt="logo ${brand.name}" style="cursor:pointer;" title="tocar para cambiar la imagen">`
+      : `<button class="icon-btn subtle" id="setLogoBtn"><i class="fa-solid fa-plus"></i> imagen</button>`}
   `;
-  el('#setLogoBtn').onclick = setBrandLogo;
+  const trigger = brand.logo_url ? el('#brandLogoImg') : el('#setLogoBtn');
+  trigger.onclick = setBrandLogo;
 }
 
 async function setBrandLogo() {
