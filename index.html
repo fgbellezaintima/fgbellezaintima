@@ -110,6 +110,45 @@ input:focus, select:focus, button:focus-visible {
   background: var(--wine-100);
   border-bottom: 1px solid var(--line);
 }
+
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--wine-100);
+  border: none;
+  border-bottom: 1px solid var(--line);
+  color: var(--wine-700);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.mobile-tab-menu {
+  display: none;
+  flex-direction: column;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.mobile-tab-menu.open { display: flex; }
+.mobile-tab-menu button {
+  text-align: left;
+  padding: 12px 18px;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-size: 14px;
+}
+.mobile-tab-menu button.active { background: var(--wine-100); color: var(--wine-700); font-weight: 700; }
+.mobile-tab-menu button.add { color: var(--wine-700); font-style: italic; }
+
+@media (max-width: 640px) {
+  .tab-bar { display: none; }
+  .hamburger-btn { display: flex; }
+}
 .tab {
   flex: 0 0 auto;
   padding: 7px 14px;
@@ -491,6 +530,8 @@ table.sizes-table input { width: 52px; padding: 4px 5px; text-align: right; }
   <div class="subtitle">control de stock por marca</div>
 </header>
 
+<button class="hamburger-btn" id="hamburgerBtn"><i class="fa-solid fa-bars"></i> menú de marcas</button>
+<div class="mobile-tab-menu" id="mobileTabMenu"></div>
 <nav class="tab-bar" id="tabBar"></nav>
 
 <main>
@@ -655,6 +696,11 @@ window.SUPABASE_ANON_KEY = "sb_publishable_bw3v1omMqTfN74jYvtZliQ_7BJsGrGA";
 
 /* F&G Belleza Intima — stock app (vanilla JS + Supabase) */
 
+// Mientras se está probando el sistema, deja esto en false: nadie tiene que
+// iniciar sesión y el panel de admin queda abierto para configurar todo.
+// Cuando quieras que cada persona ponga su nombre y contraseña, cambia a true.
+const LOGIN_ENABLED = false;
+
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
 const PRESENTATIONS = [
   { key: 'unit', label: 'por unidad' },
@@ -705,6 +751,11 @@ async function logAudit(action, details) {
 /* --------------------------------- login ---------------------------------- */
 
 async function checkLogin() {
+  if (!LOGIN_ENABLED) {
+    state.currentUser = { name: 'modo prueba', role: 'admin' };
+    renderCurrentUserTag();
+    return;
+  }
   const saved = localStorage.getItem('fg_user');
   if (saved) {
     state.currentUser = JSON.parse(saved);
@@ -745,12 +796,16 @@ async function openLoginModal() {
 function renderCurrentUserTag() {
   const tag = el('#currentUserTag');
   if (!state.currentUser) { tag.innerHTML = ''; return; }
-  tag.innerHTML = `${state.currentUser.name} <button id="logoutBtn">cambiar</button>`;
-  el('#logoutBtn').onclick = () => {
-    localStorage.removeItem('fg_user');
-    state.currentUser = null;
-    openLoginModal();
-  };
+  if (LOGIN_ENABLED) {
+    tag.innerHTML = `${state.currentUser.name} <button id="logoutBtn">cambiar</button>`;
+    el('#logoutBtn').onclick = () => {
+      localStorage.removeItem('fg_user');
+      state.currentUser = null;
+      openLoginModal();
+    };
+  } else {
+    tag.innerHTML = '';
+  }
   el('#gearBtn').style.display = state.currentUser.role === 'admin' ? 'flex' : 'none';
 }
 
@@ -765,26 +820,28 @@ async function loadBrands() {
 
 function renderTabs() {
   const bar = el('#tabBar');
+  const mobileMenu = el('#mobileTabMenu');
   bar.innerHTML = '';
+  mobileMenu.innerHTML = '';
 
-  const dashBtn = document.createElement('button');
-  dashBtn.className = 'tab special' + (state.activeTabId === 'dashboard' ? ' active' : '');
-  dashBtn.innerHTML = '<i class="fa-solid fa-table-cells"></i> dashboard';
-  dashBtn.onclick = () => selectView('dashboard');
-  bar.appendChild(dashBtn);
+  const tabDefs = [
+    { id: 'dashboard', label: 'dashboard', icon: 'fa-table-cells', special: true, onClick: () => selectView('dashboard') },
+    { id: 'caja', label: 'caja', icon: 'fa-cash-register', special: true, onClick: () => selectView('caja') },
+    ...state.brands.map((b) => ({ id: b.id, label: b.name, onClick: () => selectView('brand', b.id) })),
+  ];
 
-  const cajaBtn = document.createElement('button');
-  cajaBtn.className = 'tab special' + (state.activeTabId === 'caja' ? ' active' : '');
-  cajaBtn.innerHTML = '<i class="fa-solid fa-cash-register"></i> caja';
-  cajaBtn.onclick = () => selectView('caja');
-  bar.appendChild(cajaBtn);
-
-  state.brands.forEach((b) => {
+  tabDefs.forEach((t) => {
     const btn = document.createElement('button');
-    btn.className = 'tab' + (state.activeTabId === b.id ? ' active' : '');
-    btn.textContent = b.name;
-    btn.onclick = () => selectView('brand', b.id);
+    btn.className = 'tab' + (t.special ? ' special' : '') + (state.activeTabId === t.id ? ' active' : '');
+    btn.innerHTML = t.icon ? `<i class="fa-solid ${t.icon}"></i> ${t.label}` : t.label;
+    btn.onclick = t.onClick;
     bar.appendChild(btn);
+
+    const mBtn = document.createElement('button');
+    mBtn.className = state.activeTabId === t.id ? 'active' : '';
+    mBtn.innerHTML = t.icon ? `<i class="fa-solid ${t.icon}"></i> ${t.label}` : t.label;
+    mBtn.onclick = () => { t.onClick(); closeMobileMenu(); };
+    mobileMenu.appendChild(mBtn);
   });
 
   const addBtn = document.createElement('button');
@@ -792,6 +849,19 @@ function renderTabs() {
   addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> marca';
   addBtn.onclick = addBrand;
   bar.appendChild(addBtn);
+
+  const mAddBtn = document.createElement('button');
+  mAddBtn.className = 'add';
+  mAddBtn.innerHTML = '<i class="fa-solid fa-plus"></i> agregar marca';
+  mAddBtn.onclick = () => { addBrand(); closeMobileMenu(); };
+  mobileMenu.appendChild(mAddBtn);
+}
+
+function toggleMobileMenu() {
+  el('#mobileTabMenu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  el('#mobileTabMenu').classList.remove('open');
 }
 
 async function addBrand() {
@@ -1434,6 +1504,7 @@ document.addEventListener('DOMContentLoaded', () => {
   el('#cajaApplyCustom').addEventListener('click', () => loadCaja('custom'));
 
   el('#gearBtn').addEventListener('click', openAdminPanel);
+  el('#hamburgerBtn').addEventListener('click', toggleMobileMenu);
   el('#adminModalClose').addEventListener('click', () => { el('#adminModalOverlay').style.display = 'none'; });
   document.querySelectorAll('.admin-tab').forEach((b) => b.addEventListener('click', () => showAdminTab(b.dataset.tab)));
 
