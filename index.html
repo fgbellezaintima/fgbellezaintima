@@ -6,7 +6,7 @@
 <title>F&amp;G Belleza Intima — stock</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@700&family=Cormorant+Garamond:ital@1&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 <style>
@@ -87,14 +87,18 @@ input:focus, select:focus, button:focus-visible {
   position: relative;
 }
 .app-header .eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
   color: var(--gold-400);
-  font-size: 12px;
+  font-size: 15px;
   letter-spacing: 1px;
   margin-bottom: 2px;
 }
 .app-header .subtitle {
-  color: rgba(255,255,255,0.75);
-  font-size: 13px;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: rgba(255,255,255,0.8);
+  font-size: 16px;
   margin-top: 2px;
 }
 
@@ -316,11 +320,172 @@ table.sizes-table input { width: 52px; padding: 4px 5px; text-align: right; }
   .field-row.three { grid-template-columns: 1fr 1fr 1fr 1fr; }
 }
 
+/* ------------------------------ header / gear --------------------------- */
+
+.app-header { position: relative; }
+.gear-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+.current-user-tag {
+  position: absolute;
+  top: 18px;
+  left: 14px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.75);
+}
+.current-user-tag button {
+  background: none;
+  border: none;
+  color: var(--gold-400);
+  text-decoration: underline;
+  font-size: 11px;
+  padding: 0;
+}
+
+/* --------------------------------- modal --------------------------------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30,10,18,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 50;
+}
+.modal-box {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 18px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-box h3 { color: var(--wine-700); margin-bottom: 10px; }
+.modal-close { float: right; border: none; background: none; color: var(--ink-soft); font-size: 16px; }
+
+/* ------------------------------ admin panel ------------------------------ */
+
+.admin-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+.admin-tab {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.admin-tab.active { background: var(--wine-700); color: #fff; border-color: var(--wine-700); }
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.user-row .u-name { font-weight: 600; flex: 0 0 90px; }
+.user-row .u-role { font-size: 11px; color: var(--ink-soft); flex: 0 0 60px; }
+.user-row .u-pass { flex: 1; display: flex; align-items: center; gap: 4px; }
+.user-row input[type="password"], .user-row input[type="text"].pass-field {
+  width: 100%;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+.user-row button.icon-mini {
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 13px;
+  padding: 3px;
+}
+
+.audit-row {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+}
+.audit-row .a-meta { color: var(--ink-soft); font-size: 11px; }
+
+/* ------------------------------ special tabs ------------------------------ */
+
+.tab.special { border: 1px solid var(--wine-700); }
+
+.dashboard-filter { margin-bottom: 10px; }
+
+.dash-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.dash-row .dash-brand { font-size: 10px; color: var(--wine-700); font-weight: 700; text-transform: uppercase; }
+
+.caja-filters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.caja-filters button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.caja-filters button.active { background: var(--wine-700); color: #fff; border-color: var(--wine-700); }
+.caja-total { text-align: center; padding: 24px 0; }
+.caja-total .amount { font-size: 32px; font-weight: 700; color: var(--wine-700); }
+.caja-total .caption { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+
+/* ------------------------------ visual bar -------------------------------- */
+
+.stock-bar-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 4px;
+  background: var(--line);
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 10px;
+}
+.stock-bar-in { background: var(--success); height: 100%; }
+.stock-bar-out { background: var(--danger); height: 100%; }
+
+/* ------------------------------ edit/delete row --------------------------- */
+
+.product-row .row-actions { display: flex; gap: 2px; }
+.product-row .row-actions button {
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 13px;
+  padding: 4px 6px;
+}
+.product-row .row-actions button:hover { color: var(--wine-700); }
+.product-row .row-actions button.danger:hover { color: var(--danger); }
+
 </style>
 </head>
 <body>
 
 <header class="app-header">
+  <div class="current-user-tag" id="currentUserTag"></div>
+  <button class="gear-btn" id="gearBtn" style="display:none;" title="admin"><i class="fa-solid fa-gear"></i></button>
   <div class="eyebrow">F&amp;G</div>
   <div class="wordmark">Belleza Intima</div>
   <div class="subtitle">control de stock por marca</div>
@@ -329,91 +494,159 @@ table.sizes-table input { width: 52px; padding: 4px 5px; text-align: right; }
 <nav class="tab-bar" id="tabBar"></nav>
 
 <main>
-  <section class="panel">
-    <div class="brand-identity" id="brandIdentity"></div>
 
+  <!-- ============================== DASHBOARD ============================== -->
+  <section class="panel" id="dashboardView" style="display:none;">
     <div class="panel-header">
-      <h2 id="productCount">0 artículos</h2>
-      <div class="panel-header-actions">
-        <button class="icon-btn success" id="toggleBuyPanel"><i class="fa-solid fa-arrow-down"></i> compra</button>
-        <button class="icon-btn danger" id="toggleSellPanel"><i class="fa-solid fa-arrow-up"></i> venta</button>
-        <button class="icon-btn" id="toggleNewProduct"><i class="fa-solid fa-plus"></i> nuevo artículo</button>
-      </div>
+      <h2 id="dashboardCount">0 artículos en total</h2>
     </div>
-
-    <div class="panel-body movement-card in" id="buyPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
-      <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-down"></i> registrar compra (ingreso de stock)</p>
-      <form id="buyForm">
-        <div class="field-row">
-          <div class="field"><label>Artículo</label><select id="buyProduct"><option value="">elegir artículo…</option></select></div>
-          <div class="field"><label>Talla</label><select id="buySize"><option value="">elegir talla…</option></select></div>
-        </div>
-        <div class="field-row">
-          <div class="field"><label>Docenas</label><input id="buyDozens" type="number" placeholder="1"></div>
-          <div class="field"><label>Unidades sueltas</label><input id="buyUnits" type="number" placeholder="0"></div>
-        </div>
-        <button class="btn-primary" type="submit"><i class="fa-solid fa-arrow-down"></i> agregar al stock</button>
-      </form>
+    <div class="panel-body dashboard-filter">
+      <select id="dashboardTypeFilter" style="width:100%;"></select>
     </div>
-
-    <div class="panel-body movement-card out" id="sellPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
-      <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-up"></i> registrar venta (descontar stock)</p>
-      <form id="sellForm">
-        <div class="field-row">
-          <div class="field"><label>Artículo</label><select id="sellProduct"><option value="">elegir artículo…</option></select></div>
-          <div class="field"><label>Talla</label><select id="sellSize"><option value="">elegir talla…</option></select></div>
-        </div>
-        <div class="field-row">
-          <div class="field"><label>Docenas</label><input id="sellDozens" type="number" placeholder="0"></div>
-          <div class="field"><label>Unidades sueltas</label><input id="sellUnits" type="number" placeholder="1"></div>
-        </div>
-        <button class="btn-primary btn-danger" type="submit"><i class="fa-solid fa-arrow-up"></i> descontar del stock</button>
-      </form>
-    </div>
-
-    <div class="panel-body" id="newProductPanel" style="display:none;">
-      <form id="newProductForm">
-        <div class="field-row">
-          <div class="field"><label>Código</label><input id="newCode" type="text" placeholder="PP-3065" required></div>
-          <div class="field"><label>Descripción</label><input id="newName" type="text" placeholder="Brasier lace push-up" required></div>
-        </div>
-
-        <div class="field"><label>Tallas que maneja este artículo</label></div>
-        <div class="size-picker" id="sizePicker"></div>
-
-        <div class="field-row">
-          <div class="field">
-            <label>Precio de compra (docena, fijo)</label>
-            <input id="newPurchaseDozen" type="number" step="0.01" placeholder="170.00">
-          </div>
-          <div class="field">
-            <label>Precio de venta (por unidad)</label>
-            <input id="newSaleUnit" type="number" step="0.01" placeholder="25.00">
-          </div>
-        </div>
-        <p style="font-size:11px; color:var(--ink-soft); margin:0 0 10px;">
-          Cuarto, media docena y docena se calculan automáticamente desde el precio por unidad
-          (×3, ×6, ×12). Se pueden ajustar manualmente después desde Supabase si un artículo tiene un precio especial.
-        </p>
-
-        <button class="btn-primary" type="submit"><i class="fa-solid fa-plus"></i> crear artículo</button>
-      </form>
-    </div>
-
-    <div id="productList"></div>
+    <div id="dashboardList"></div>
   </section>
 
-  <section class="panel">
+  <!-- ================================= CAJA ================================= -->
+  <section class="panel" id="cajaView" style="display:none;">
     <div class="panel-header">
-      <h2>Movimientos de la marca</h2>
+      <h2>Caja</h2>
     </div>
     <div class="panel-body">
-      <select id="movementFilter" style="width:100%; margin-bottom:12px;"></select>
-      <div class="movement-summary" id="movementSummary"></div>
-      <div id="movementList"></div>
+      <div class="caja-filters">
+        <button data-range="day" class="active">día</button>
+        <button data-range="week">semana</button>
+        <button data-range="month">mes</button>
+        <button data-range="custom">rango personalizado</button>
+      </div>
+      <div class="field-row" id="cajaCustomRange" style="display:none; margin-bottom:8px;">
+        <div class="field"><label>Desde</label><input type="date" id="cajaCustomStart"></div>
+        <div class="field"><label>Hasta</label><input type="date" id="cajaCustomEnd"></div>
+      </div>
+      <button class="icon-btn" id="cajaApplyCustom" style="display:none; margin-bottom:10px;">aplicar</button>
+      <div id="cajaTotal"></div>
+      <p style="font-size:11px; color:var(--ink-soft); text-align:center;">módulo en construcción — por ahora muestra un estimado de ventas por período.</p>
     </div>
   </section>
+
+  <!-- ================================ MARCA ================================= -->
+  <div id="brandView" style="display:none;">
+    <section class="panel">
+      <div class="brand-identity" id="brandIdentity"></div>
+
+      <div class="panel-header">
+        <h2 id="productCount">0 artículos</h2>
+        <div class="panel-header-actions">
+          <button class="icon-btn success" id="toggleBuyPanel"><i class="fa-solid fa-arrow-down"></i> compra</button>
+          <button class="icon-btn danger" id="toggleSellPanel"><i class="fa-solid fa-arrow-up"></i> venta</button>
+          <button class="icon-btn" id="toggleNewProduct"><i class="fa-solid fa-plus"></i> nuevo artículo</button>
+        </div>
+      </div>
+
+      <div class="panel-body movement-card in" id="buyPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
+        <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-down"></i> registrar compra (ingreso de stock)</p>
+        <form id="buyForm">
+          <div class="field-row">
+            <div class="field"><label>Artículo</label><select id="buyProduct"><option value="">elegir artículo…</option></select></div>
+            <div class="field"><label>Talla</label><select id="buySize"><option value="">elegir talla…</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Docenas</label><input id="buyDozens" type="number" placeholder="1"></div>
+            <div class="field"><label>Unidades sueltas</label><input id="buyUnits" type="number" placeholder="0"></div>
+          </div>
+          <button class="btn-primary" type="submit"><i class="fa-solid fa-arrow-down"></i> agregar al stock</button>
+        </form>
+      </div>
+
+      <div class="panel-body movement-card out" id="sellPanel" style="display:none; border-radius:8px; margin:0 14px 14px;">
+        <p style="font-size:12px; font-weight:700; margin:0 0 8px;"><i class="fa-solid fa-arrow-up"></i> registrar venta (descontar stock)</p>
+        <form id="sellForm">
+          <div class="field-row">
+            <div class="field"><label>Artículo</label><select id="sellProduct"><option value="">elegir artículo…</option></select></div>
+            <div class="field"><label>Talla</label><select id="sellSize"><option value="">elegir talla…</option></select></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Docenas</label><input id="sellDozens" type="number" placeholder="0"></div>
+            <div class="field"><label>Unidades sueltas</label><input id="sellUnits" type="number" placeholder="1"></div>
+          </div>
+          <button class="btn-primary btn-danger" type="submit"><i class="fa-solid fa-arrow-up"></i> descontar del stock</button>
+        </form>
+      </div>
+
+      <div class="panel-body" id="newProductPanel" style="display:none;">
+        <form id="newProductForm">
+          <div class="field-row">
+            <div class="field"><label>Código</label><input id="newCode" type="text" placeholder="PP-3065" required></div>
+            <div class="field"><label>Descripción</label><input id="newName" type="text" placeholder="Brasier lace push-up" required></div>
+          </div>
+          <div class="field" style="margin-bottom:8px;">
+            <label>Tipo de artículo</label>
+            <select id="newArticleType"></select>
+          </div>
+
+          <div class="field"><label>Tallas que maneja este artículo</label></div>
+          <div class="size-picker" id="sizePicker"></div>
+          <div class="field-row" style="margin-top:6px;">
+            <div class="field"><input id="customSizeInput" type="text" placeholder="otra talla (ej. 34B)"></div>
+            <div class="field"><button class="icon-btn" type="button" id="addCustomSizeBtn"><i class="fa-solid fa-plus"></i> agregar talla</button></div>
+          </div>
+
+          <div class="field-row" style="margin-top:8px;">
+            <div class="field">
+              <label>Precio de compra (docena, fijo)</label>
+              <input id="newPurchaseDozen" type="number" step="0.01" placeholder="170.00">
+            </div>
+            <div class="field">
+              <label>Precio de venta (por unidad)</label>
+              <input id="newSaleUnit" type="number" step="0.01" placeholder="25.00">
+            </div>
+          </div>
+          <p style="font-size:11px; color:var(--ink-soft); margin:0 0 10px;">
+            Cuarto, media docena y docena se calculan automáticamente desde el precio por unidad
+            (×3, ×6, ×12). Se pueden ajustar manualmente después desde Supabase si un artículo tiene un precio especial.
+          </p>
+
+          <button class="btn-primary" type="submit"><i class="fa-solid fa-plus"></i> crear artículo</button>
+        </form>
+      </div>
+
+      <div id="productList"></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Movimientos de la marca</h2>
+      </div>
+      <div class="panel-body">
+        <select id="movementFilter" style="width:100%; margin-bottom:12px;"></select>
+        <div class="movement-summary" id="movementSummary"></div>
+        <div id="stockBar"></div>
+        <div id="movementList"></div>
+      </div>
+    </section>
+  </div>
+
 </main>
+
+<!-- ================================ LOGIN MODAL ================================ -->
+<div class="modal-overlay" id="loginModalOverlay" style="display:none;">
+  <div class="modal-box">
+    <h3>Entrar a F&amp;G Belleza Intima</h3>
+    <div id="loginModalBody"></div>
+  </div>
+</div>
+
+<!-- ================================ ADMIN MODAL ================================= -->
+<div class="modal-overlay" id="adminModalOverlay" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" id="adminModalClose"><i class="fa-solid fa-xmark"></i></button>
+    <h3>Admin</h3>
+    <div class="admin-tabs">
+      <button class="admin-tab active" data-tab="usuarios">usuarios</button>
+      <button class="admin-tab" data-tab="audit">audit log</button>
+    </div>
+    <div id="adminBody"></div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -424,23 +657,101 @@ window.SUPABASE_ANON_KEY = "sb_publishable_bw3v1omMqTfN74jYvtZliQ_7BJsGrGA";
 
 const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL'];
 const PRESENTATIONS = [
-  { key: 'unit', label: 'por unidad', mult: 1 },
-  { key: 'quarter', label: 'por cuarto (3)', mult: 3 },
-  { key: 'half_dozen', label: 'por media docena (6)', mult: 6 },
-  { key: 'dozen', label: 'por docena (12)', mult: 12 },
+  { key: 'unit', label: 'por unidad' },
+  { key: 'quarter', label: 'por cuarto (3)' },
+  { key: 'half_dozen', label: 'por media docena (6)' },
+  { key: 'dozen', label: 'por docena (12)' },
+];
+const ARTICLE_TYPES = [
+  { key: 'brasier', label: 'Brasier' },
+  { key: 'calzon', label: 'Calzón' },
+  { key: 'media', label: 'Media' },
+  { key: 'ropa', label: 'Ropa' },
+  { key: 'otro', label: 'Otro' },
 ];
 
 const supa = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
 
-const state = { brands: [], currentBrandId: null, openProductId: null };
+const state = {
+  brands: [],
+  currentBrandId: null,
+  activeTabId: 'dashboard',
+  brandProducts: [],
+  currentUser: null,
+  cajaRange: 'day',
+};
 
 const el = (sel) => document.querySelector(sel);
 const money = (n) => Number(n || 0).toFixed(2);
 const totalUnits = (dozens, loose) => Number(dozens || 0) * 12 + Number(loose || 0);
+const typeLabel = (key) => (ARTICLE_TYPES.find((t) => t.key === key) || {}).label || 'sin tipo';
 
 async function init() {
+  await checkLogin();
   await loadBrands();
-  if (state.brands.length) selectBrand(state.brands[0].id);
+  selectView('dashboard');
+}
+
+async function logAudit(action, details) {
+  try {
+    await supa.from('audit_log').insert({
+      actor: state.currentUser ? state.currentUser.name : 'desconocido',
+      action,
+      details: details || null,
+    });
+  } catch (e) { console.error('audit log falló', e); }
+}
+
+/* --------------------------------- login ---------------------------------- */
+
+async function checkLogin() {
+  const saved = localStorage.getItem('fg_user');
+  if (saved) {
+    state.currentUser = JSON.parse(saved);
+    renderCurrentUserTag();
+    return;
+  }
+  await openLoginModal();
+}
+
+async function openLoginModal() {
+  const { data: users } = await supa.from('app_users').select('id, name, role').order('name');
+  const box = el('#loginModalOverlay');
+  box.style.display = 'flex';
+  el('#loginModalBody').innerHTML = `
+    <div class="field" style="margin-bottom:8px;">
+      <label>¿Quién eres?</label>
+      <select id="loginName">${(users || []).map((u) => `<option value="${u.name}">${u.name}</option>`).join('')}</select>
+    </div>
+    <div class="field" style="margin-bottom:12px;">
+      <label>Contraseña</label>
+      <input id="loginPassword" type="password" placeholder="••••••••">
+    </div>
+    <button class="btn-primary" id="loginSubmit"><i class="fa-solid fa-right-to-bracket"></i> entrar</button>
+    <p id="loginError" style="color:var(--danger); font-size:12px; margin-top:8px;"></p>
+  `;
+  el('#loginSubmit').onclick = async () => {
+    const name = el('#loginName').value;
+    const password = el('#loginPassword').value;
+    const { data, error } = await supa.from('app_users').select('*').eq('name', name).eq('password', password).maybeSingle();
+    if (error || !data) { el('#loginError').textContent = 'Contraseña incorrecta.'; return; }
+    state.currentUser = { name: data.name, role: data.role };
+    localStorage.setItem('fg_user', JSON.stringify(state.currentUser));
+    box.style.display = 'none';
+    renderCurrentUserTag();
+  };
+}
+
+function renderCurrentUserTag() {
+  const tag = el('#currentUserTag');
+  if (!state.currentUser) { tag.innerHTML = ''; return; }
+  tag.innerHTML = `${state.currentUser.name} <button id="logoutBtn">cambiar</button>`;
+  el('#logoutBtn').onclick = () => {
+    localStorage.removeItem('fg_user');
+    state.currentUser = null;
+    openLoginModal();
+  };
+  el('#gearBtn').style.display = state.currentUser.role === 'admin' ? 'flex' : 'none';
 }
 
 /* ------------------------------- marcas -------------------------------- */
@@ -455,13 +766,27 @@ async function loadBrands() {
 function renderTabs() {
   const bar = el('#tabBar');
   bar.innerHTML = '';
+
+  const dashBtn = document.createElement('button');
+  dashBtn.className = 'tab special' + (state.activeTabId === 'dashboard' ? ' active' : '');
+  dashBtn.innerHTML = '<i class="fa-solid fa-table-cells"></i> dashboard';
+  dashBtn.onclick = () => selectView('dashboard');
+  bar.appendChild(dashBtn);
+
+  const cajaBtn = document.createElement('button');
+  cajaBtn.className = 'tab special' + (state.activeTabId === 'caja' ? ' active' : '');
+  cajaBtn.innerHTML = '<i class="fa-solid fa-cash-register"></i> caja';
+  cajaBtn.onclick = () => selectView('caja');
+  bar.appendChild(cajaBtn);
+
   state.brands.forEach((b) => {
     const btn = document.createElement('button');
-    btn.className = 'tab' + (b.id === state.currentBrandId ? ' active' : '');
+    btn.className = 'tab' + (state.activeTabId === b.id ? ' active' : '');
     btn.textContent = b.name;
-    btn.onclick = () => selectBrand(b.id);
+    btn.onclick = () => selectView('brand', b.id);
     bar.appendChild(btn);
   });
+
   const addBtn = document.createElement('button');
   addBtn.className = 'tab-add';
   addBtn.innerHTML = '<i class="fa-solid fa-plus"></i> marca';
@@ -474,13 +799,25 @@ async function addBrand() {
   if (!name) return;
   const { error } = await supa.from('brands').insert({ name, sort_order: state.brands.length + 1 });
   if (error) return alert('No se pudo crear la marca: ' + error.message);
+  await logAudit('crear_marca', name);
   await loadBrands();
+}
+
+/* ------------------------------- vistas ---------------------------------- */
+
+function selectView(view, brandId) {
+  state.activeTabId = view === 'brand' ? brandId : view;
+  el('#dashboardView').style.display = view === 'dashboard' ? 'block' : 'none';
+  el('#cajaView').style.display = view === 'caja' ? 'block' : 'none';
+  el('#brandView').style.display = view === 'brand' ? 'block' : 'none';
+  renderTabs();
+  if (view === 'dashboard') loadDashboard();
+  else if (view === 'caja') loadCaja(state.cajaRange);
+  else selectBrand(brandId);
 }
 
 async function selectBrand(id) {
   state.currentBrandId = id;
-  state.openProductId = null;
-  renderTabs();
   renderBrandIdentity();
   await Promise.all([loadProducts(id), loadMovements(id)]);
 }
@@ -507,6 +844,7 @@ async function setBrandLogo() {
   if (url === null) return;
   const { error } = await supa.from('brands').update({ logo_url: url }).eq('id', brand.id);
   if (error) return alert('No se pudo guardar la imagen: ' + error.message);
+  await logAudit('actualizar_logo_marca', brand.name);
   await loadBrands();
   renderBrandIdentity();
 }
@@ -520,7 +858,9 @@ async function loadProducts(brandId) {
     .eq('brand_id', brandId)
     .order('code');
   if (error) return console.error(error);
-  state.brandProducts = data || [];
+  const { data: fullProducts } = await supa.from('products').select('id, article_type').eq('brand_id', brandId);
+  const typeMap = Object.fromEntries((fullProducts || []).map((p) => [p.id, p.article_type]));
+  state.brandProducts = (data || []).map((p) => ({ ...p, article_type: typeMap[p.product_id] }));
   renderProductList(state.brandProducts);
   populateMoveProductSelect('#sellProduct', state.brandProducts);
   populateMoveProductSelect('#buyProduct', state.brandProducts);
@@ -537,21 +877,58 @@ function renderProductList(products) {
   products.forEach((p) => {
     const row = document.createElement('div');
     row.innerHTML = `
-      <div class="product-row" style="cursor:pointer;">
-        <div style="flex:1; min-width:0;">
+      <div class="product-row">
+        <div style="flex:1; min-width:0; cursor:pointer;" class="row-click">
           <div class="product-code">${p.code} · ${p.name}</div>
-          <div class="product-meta">venta desde ${money(p.sale_price_unit)} (unid.)</div>
+          <div class="product-meta">${typeLabel(p.article_type)} · venta desde ${money(p.sale_price_unit)} (unid.)</div>
         </div>
-        <div>
+        <div style="cursor:pointer;" class="row-click">
           <div class="product-total ${p.total_units <= 5 ? 'low' : ''}">${p.total_units || 0}</div>
           <div class="product-total-label">${p.total_units <= 5 ? 'stock bajo' : 'unidades'}</div>
+        </div>
+        <div class="row-actions">
+          <button title="editar"><i class="fa-solid fa-pen"></i></button>
+          <button class="danger" title="eliminar"><i class="fa-solid fa-trash"></i></button>
         </div>
       </div>
       <div class="product-detail" id="detail-${p.product_id}" style="display:none;"></div>
     `;
-    row.querySelector('.product-row').onclick = () => toggleProductDetail(p);
+    row.querySelectorAll('.row-click').forEach((n) => (n.onclick = () => toggleProductDetail(p)));
+    const [editBtn, deleteBtn] = row.querySelectorAll('.row-actions button');
+    editBtn.onclick = (ev) => { ev.stopPropagation(); editProduct(p); };
+    deleteBtn.onclick = (ev) => { ev.stopPropagation(); deleteProduct(p); };
     list.appendChild(row);
   });
+}
+
+async function editProduct(product) {
+  const newName = prompt('Nueva descripción del artículo:', product.name);
+  if (newName === null) return;
+  const typeOptions = ARTICLE_TYPES.map((t) => `${t.key} = ${t.label}`).join(', ');
+  const newType = prompt(`Tipo de artículo (${typeOptions}):`, product.article_type || '');
+  const addSize = prompt('¿Agregar una talla nueva a este artículo? Escribe el nombre de la talla (ej. "2XL" o "34B"), o deja vacío para no agregar ninguna:', '');
+
+  const { error } = await supa.from('products')
+    .update({ name: newName.trim(), article_type: (newType || '').trim() || null })
+    .eq('id', product.product_id);
+  if (error) return alert('No se pudo editar el artículo: ' + error.message);
+
+  if (addSize && addSize.trim()) {
+    const { error: sizeError } = await supa.from('product_sizes')
+      .insert({ product_id: product.product_id, size: addSize.trim(), dozens: 0, loose_units: 0 });
+    if (sizeError) alert('El artículo se editó, pero no se pudo agregar la talla: ' + sizeError.message);
+  }
+
+  await logAudit('editar_articulo', `${product.code} → ${newName}`);
+  await loadProducts(state.currentBrandId);
+}
+
+async function deleteProduct(product) {
+  if (!confirm(`¿Eliminar "${product.code} · ${product.name}"? Esto borra también sus tallas y movimientos.`)) return;
+  const { error } = await supa.from('products').delete().eq('id', product.product_id);
+  if (error) return alert('No se pudo eliminar: ' + error.message);
+  await logAudit('eliminar_articulo', `${product.code} · ${product.name}`);
+  await loadProducts(state.currentBrandId);
 }
 
 async function toggleProductDetail(product) {
@@ -590,7 +967,7 @@ async function toggleProductDetail(product) {
     <hr class="divider-gold">
     <div class="price-row"><span>precio de compra (docena, fijo)</span><span>${money(product.purchase_price_dozen)}</span></div>
     ${PRESENTATIONS.map((pres) => `
-      <div class="price-row"><span>venta ${pres.label}</span><span>${money(product['sale_price_' + (pres.key === 'unit' ? 'unit' : pres.key === 'quarter' ? 'quarter' : pres.key === 'half_dozen' ? 'half_dozen' : 'dozen')])}</span></div>
+      <div class="price-row"><span>venta ${pres.label}</span><span>${money(product['sale_price_' + pres.key])}</span></div>
     `).join('')}
   `;
 
@@ -616,6 +993,7 @@ async function movementPrompt(productSizeId, type, product) {
     reason: type === 'in' ? 'compra' : 'venta',
   });
   if (error) return alert('No se pudo registrar el movimiento: ' + error.message);
+  await logAudit(type === 'in' ? 'ingreso' : 'egreso', `${product.code} — ${dozens} doc. ${loose_units} unid.`);
 
   await loadProducts(state.currentBrandId);
   await loadMovements(state.currentBrandId);
@@ -653,6 +1031,8 @@ async function onMoveProductChange(productSelectSel, sizeSelectSel) {
 async function submitMovement(ev, type) {
   ev.preventDefault();
   const prefix = type === 'ingreso' ? 'buy' : 'sell';
+  const productSel = el(`#${prefix}Product`);
+  const productCode = productSel.options[productSel.selectedIndex] ? productSel.options[productSel.selectedIndex].text : '';
   const productSizeId = el(`#${prefix}Size`).value;
   const dozens = parseInt(el(`#${prefix}Dozens`).value, 10) || 0;
   const loose_units = parseInt(el(`#${prefix}Units`).value, 10) || 0;
@@ -668,6 +1048,7 @@ async function submitMovement(ev, type) {
     reason: type === 'ingreso' ? 'compra' : 'venta',
   });
   if (error) return alert('No se pudo registrar el movimiento: ' + error.message);
+  await logAudit(type, `${productCode} — ${dozens} doc. ${loose_units} unid.`);
 
   el(`#${prefix}Form`).reset();
   el(`#${prefix}Size`).innerHTML = '<option value="">elegir talla…</option>';
@@ -685,6 +1066,25 @@ function renderSizePicker() {
   });
 }
 
+function addCustomSizeChip() {
+  const input = el('#customSizeInput');
+  const value = input.value.trim();
+  if (!value) return;
+  const box = el('#sizePicker');
+  const chip = document.createElement('div');
+  chip.className = 'size-chip selected';
+  chip.dataset.size = value;
+  chip.textContent = value;
+  chip.onclick = () => chip.classList.toggle('selected');
+  box.appendChild(chip);
+  input.value = '';
+}
+
+function populateArticleTypeSelect() {
+  el('#newArticleType').innerHTML = '<option value="">elegir tipo…</option>' +
+    ARTICLE_TYPES.map((t) => `<option value="${t.key}">${t.label}</option>`).join('');
+}
+
 async function submitNewProduct(ev) {
   ev.preventDefault();
   const brandId = state.currentBrandId;
@@ -692,6 +1092,7 @@ async function submitNewProduct(ev) {
 
   const code = el('#newCode').value.trim();
   const name = el('#newName').value.trim();
+  const articleType = el('#newArticleType').value || null;
   const purchaseDozen = parseFloat(el('#newPurchaseDozen').value) || 0;
   const saleUnit = parseFloat(el('#newSaleUnit').value) || 0;
   const selectedSizes = [...document.querySelectorAll('#sizePicker .size-chip.selected')].map((c) => c.dataset.size);
@@ -703,7 +1104,7 @@ async function submitNewProduct(ev) {
 
   const { data: product, error } = await supa
     .from('products')
-    .insert({ brand_id: brandId, code, name, purchase_price_dozen: purchaseDozen, sale_price_unit: saleUnit })
+    .insert({ brand_id: brandId, code, name, article_type: articleType, purchase_price_dozen: purchaseDozen, sale_price_unit: saleUnit })
     .select()
     .single();
   if (error) return alert('No se pudo crear el artículo: ' + error.message);
@@ -711,6 +1112,8 @@ async function submitNewProduct(ev) {
   const sizeRows = selectedSizes.map((size) => ({ product_id: product.id, size, dozens: 0, loose_units: 0 }));
   const { error: sizeError } = await supa.from('product_sizes').insert(sizeRows);
   if (sizeError) return alert('Artículo creado, pero hubo un error con las tallas: ' + sizeError.message);
+
+  await logAudit('crear_articulo', `${code} · ${name}`);
 
   el('#newProductForm').reset();
   renderSizePicker();
@@ -732,6 +1135,7 @@ async function loadMovements(brandId) {
 
   if (!productIds.length) {
     el('#movementSummary').innerHTML = '';
+    el('#stockBar').innerHTML = '';
     el('#movementList').innerHTML = '<div class="empty-state">Sin movimientos todavía.</div>';
     return;
   }
@@ -765,6 +1169,15 @@ async function loadMovements(brandId) {
     <div class="movement-card out"><div class="label"><i class="fa-solid fa-arrow-up"></i> egresos (mes)</div><div class="value">-${outTotal}</div></div>
   `;
 
+  const totalMoved = inTotal + outTotal;
+  const inPct = totalMoved ? Math.round((inTotal / totalMoved) * 100) : 50;
+  el('#stockBar').innerHTML = `
+    <div class="stock-bar-track">
+      <div class="stock-bar-in" style="width:${inPct}%;"></div>
+      <div class="stock-bar-out" style="width:${100 - inPct}%;"></div>
+    </div>
+  `;
+
   el('#movementList').innerHTML = (filtered && filtered.length)
     ? filtered.slice(0, 15).map((m) => {
         const prod = productMap[sizeToProduct[m.product_size_id]];
@@ -791,15 +1204,212 @@ function populateMovementFilter(products) {
   select.value = products.some((p) => p.id === current) ? current : 'all';
 }
 
+/* -------------------------------- dashboard -------------------------------- */
+
+async function loadDashboard() {
+  const { data: products } = await supa.from('products').select('*');
+  const { data: sizes } = await supa.from('product_sizes').select('product_id, dozens, loose_units');
+
+  const totalsByProduct = {};
+  (sizes || []).forEach((s) => {
+    totalsByProduct[s.product_id] = (totalsByProduct[s.product_id] || 0) + totalUnits(s.dozens, s.loose_units);
+  });
+
+  const rows = (products || []).map((p) => ({ ...p, total_units: totalsByProduct[p.id] || 0 }));
+  state.dashboardRows = rows;
+
+  el('#dashboardTypeFilter').innerHTML = '<option value="all">todos los tipos</option>' +
+    ARTICLE_TYPES.map((t) => `<option value="${t.key}">${t.label}</option>`).join('');
+
+  renderDashboardList();
+}
+
+function renderDashboardList() {
+  const filterVal = el('#dashboardTypeFilter').value || 'all';
+  const brandMap = Object.fromEntries(state.brands.map((b) => [b.id, b.name]));
+  const rows = (state.dashboardRows || []).filter((p) => filterVal === 'all' || p.article_type === filterVal);
+
+  el('#dashboardCount').textContent = rows.length + (rows.length === 1 ? ' artículo en total' : ' artículos en total');
+
+  const list = el('#dashboardList');
+  if (!rows.length) {
+    list.innerHTML = '<div class="empty-state">No hay artículos para este filtro todavía.</div>';
+    return;
+  }
+  list.innerHTML = rows.map((p) => `
+    <div class="dash-row" data-brand="${p.brand_id}" data-product="${p.id}">
+      <div style="flex:1; min-width:0;">
+        <div class="dash-brand">${brandMap[p.brand_id] || ''}</div>
+        <div class="product-code">${p.code} · ${p.name}</div>
+        <div class="product-meta">${typeLabel(p.article_type)}</div>
+      </div>
+      <div class="product-total ${p.total_units <= 5 ? 'low' : ''}">${p.total_units}</div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.dash-row').forEach((row) => {
+    row.onclick = () => {
+      selectView('brand', row.dataset.brand);
+    };
+  });
+}
+
+/* ---------------------------------- caja ----------------------------------- */
+
+function dateRangeFor(range) {
+  const now = new Date();
+  let start, end;
+  if (range === 'day') {
+    start = new Date(now); start.setHours(0, 0, 0, 0);
+    end = new Date(now); end.setHours(23, 59, 59, 999);
+  } else if (range === 'week') {
+    start = new Date(now); start.setDate(start.getDate() - 6); start.setHours(0, 0, 0, 0);
+    end = new Date(now); end.setHours(23, 59, 59, 999);
+  } else if (range === 'month') {
+    start = new Date(now.getFullYear(), now.getMonth(), 1);
+    end = new Date(now); end.setHours(23, 59, 59, 999);
+  } else {
+    start = new Date(el('#cajaCustomStart').value || now);
+    end = new Date(el('#cajaCustomEnd').value || now);
+    end.setHours(23, 59, 59, 999);
+  }
+  return { start, end };
+}
+
+async function loadCaja(range) {
+  state.cajaRange = range;
+  document.querySelectorAll('.caja-filters button[data-range]').forEach((b) => {
+    b.classList.toggle('active', b.dataset.range === range);
+  });
+  el('#cajaCustomRange').style.display = range === 'custom' ? 'flex' : 'none';
+  el('#cajaApplyCustom').style.display = range === 'custom' ? 'inline-block' : 'none';
+  if (range === 'custom' && (!el('#cajaCustomStart').value || !el('#cajaCustomEnd').value)) {
+    el('#cajaTotal').innerHTML = '<div class="empty-state">Elige un rango de fechas y presiona "aplicar".</div>';
+    return;
+  }
+
+  const { start, end } = dateRangeFor(range);
+
+  const { data: products } = await supa.from('products').select('id, sale_price_unit');
+  const priceMap = Object.fromEntries((products || []).map((p) => [p.id, p.sale_price_unit]));
+  const { data: sizes } = await supa.from('product_sizes').select('id, product_id');
+  const sizeToProduct = Object.fromEntries((sizes || []).map((s) => [s.id, s.product_id]));
+
+  const { data: movements, error } = await supa
+    .from('stock_movements')
+    .select('*')
+    .eq('movement_type', 'egreso')
+    .gte('created_at', start.toISOString())
+    .lte('created_at', end.toISOString());
+
+  if (error) { el('#cajaTotal').innerHTML = 'Error cargando caja.'; return; }
+
+  let revenue = 0, unitsSold = 0;
+  (movements || []).forEach((m) => {
+    const units = totalUnits(m.dozens, m.loose_units);
+    const productId = sizeToProduct[m.product_size_id];
+    const price = priceMap[productId] || 0;
+    revenue += units * price;
+    unitsSold += units;
+  });
+
+  el('#cajaTotal').innerHTML = `
+    <div class="caja-total">
+      <div class="amount">S/ ${money(revenue)}</div>
+      <div class="caption">${unitsSold} unidades vendidas · estimado a precio de venta por unidad</div>
+    </div>
+  `;
+}
+
+/* ------------------------------ panel de admin ----------------------------- */
+
+function openAdminPanel() {
+  if (!state.currentUser || state.currentUser.role !== 'admin') return;
+  el('#adminModalOverlay').style.display = 'flex';
+  showAdminTab('usuarios');
+}
+
+function showAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach((b) => b.classList.toggle('active', b.dataset.tab === tab));
+  if (tab === 'usuarios') loadUsersAdmin(); else loadAuditLogAdmin();
+}
+
+async function loadUsersAdmin() {
+  const { data: users } = await supa.from('app_users').select('*').order('name');
+  el('#adminBody').innerHTML = `
+    <button class="icon-btn" id="addUserBtn" style="margin-bottom:10px;"><i class="fa-solid fa-plus"></i> agregar usuario</button>
+    <div id="userRows"></div>
+  `;
+  el('#addUserBtn').onclick = addUserFlow;
+  el('#userRows').innerHTML = (users || []).map((u) => `
+    <div class="user-row" data-id="${u.id}">
+      <div class="u-name">${u.name}</div>
+      <div class="u-role">${u.role}</div>
+      <div class="u-pass">
+        <input type="password" class="pass-field" value="${u.password}" readonly>
+        <button class="icon-mini" data-action="toggle" title="mostrar/ocultar"><i class="fa-solid fa-eye"></i></button>
+        <button class="icon-mini" data-action="copy" title="copiar"><i class="fa-solid fa-copy"></i></button>
+        <button class="icon-mini" data-action="edit" title="editar contraseña"><i class="fa-solid fa-pen"></i></button>
+      </div>
+    </div>
+  `).join('');
+
+  el('#userRows').querySelectorAll('.user-row').forEach((row) => {
+    const id = row.dataset.id;
+    const input = row.querySelector('.pass-field');
+    row.querySelector('[data-action="toggle"]').onclick = () => {
+      input.type = input.type === 'password' ? 'text' : 'password';
+    };
+    row.querySelector('[data-action="copy"]').onclick = () => {
+      navigator.clipboard.writeText(input.value).catch(() => {});
+    };
+    row.querySelector('[data-action="edit"]').onclick = async () => {
+      const newPass = prompt('Nueva contraseña:', input.value);
+      if (newPass === null || !newPass.trim()) return;
+      const { error } = await supa.from('app_users').update({ password: newPass.trim() }).eq('id', id);
+      if (error) return alert('No se pudo actualizar: ' + error.message);
+      await logAudit('editar_contrasena', row.querySelector('.u-name').textContent);
+      loadUsersAdmin();
+    };
+  });
+}
+
+async function addUserFlow() {
+  const name = prompt('Nombre del usuario:');
+  if (!name) return;
+  const role = (prompt('Rol: escribe "admin" o "usuario"', 'usuario') || 'usuario').trim();
+  const password = prompt('Contraseña inicial:', 'cambiar123');
+  if (!password) return;
+  const { error } = await supa.from('app_users').insert({ name: name.trim(), role: role === 'admin' ? 'admin' : 'usuario', password: password.trim() });
+  if (error) return alert('No se pudo crear el usuario: ' + error.message);
+  await logAudit('crear_usuario', name);
+  loadUsersAdmin();
+}
+
+async function loadAuditLogAdmin() {
+  const { data: logs } = await supa.from('audit_log').select('*').order('created_at', { ascending: false }).limit(60);
+  el('#adminBody').innerHTML = (logs && logs.length)
+    ? logs.map((l) => `
+        <div class="audit-row">
+          <div><strong>${l.actor}</strong> — ${l.action}</div>
+          <div class="a-meta">${new Date(l.created_at).toLocaleString('es-PE')}${l.details ? ' · ' + l.details : ''}</div>
+        </div>
+      `).join('')
+    : '<div class="empty-state">Sin actividad registrada todavía.</div>';
+}
+
 /* --------------------------------- boot ----------------------------------- */
 
 document.addEventListener('DOMContentLoaded', () => {
   renderSizePicker();
+  populateArticleTypeSelect();
+
   el('#newProductForm').addEventListener('submit', submitNewProduct);
   el('#toggleNewProduct').addEventListener('click', () => {
     const panel = el('#newProductPanel');
     panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
   });
+  el('#addCustomSizeBtn').addEventListener('click', addCustomSizeChip);
 
   el('#toggleBuyPanel').addEventListener('click', () => {
     const panel = el('#buyPanel');
@@ -815,6 +1425,18 @@ document.addEventListener('DOMContentLoaded', () => {
   el('#sellForm').addEventListener('submit', (ev) => submitMovement(ev, 'egreso'));
 
   el('#movementFilter').addEventListener('change', () => loadMovements(state.currentBrandId));
+
+  el('#dashboardTypeFilter').addEventListener('change', renderDashboardList);
+
+  document.querySelectorAll('.caja-filters button[data-range]').forEach((b) => {
+    b.addEventListener('click', () => loadCaja(b.dataset.range));
+  });
+  el('#cajaApplyCustom').addEventListener('click', () => loadCaja('custom'));
+
+  el('#gearBtn').addEventListener('click', openAdminPanel);
+  el('#adminModalClose').addEventListener('click', () => { el('#adminModalOverlay').style.display = 'none'; });
+  document.querySelectorAll('.admin-tab').forEach((b) => b.addEventListener('click', () => showAdminTab(b.dataset.tab)));
+
   init();
 });
 
